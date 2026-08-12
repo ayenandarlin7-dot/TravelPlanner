@@ -7,148 +7,65 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Optional;
 
 public class UserDAO {
 
-	public boolean createUser(User user) throws SQLException {
+    private static final String SELECT_BY_EMAIL = 
+            "SELECT user_id, email, password_hash, full_name, created_at FROM users WHERE email = ?";
 
-		String sql = """
-				INSERT INTO users
-				(full_name, email, password_hash)
-				VALUES (?, ?, ?)
-				""";
+    private static final String EXISTS_BY_EMAIL = 
+            "SELECT 1 FROM users WHERE email = ?";
 
-		try (Connection connection = DatabaseConnection.getConnection();
+    private static final String INSERT_USER = 
+            "INSERT INTO users (email, password_hash, full_name) VALUES (?, ?, ?)";
 
-				PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    public Optional<User> findByEmail(String email) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SELECT_BY_EMAIL)) {
 
-			statement.setString(1, user.getFullName());
-			statement.setString(2, user.getEmail());
-			statement.setString(3, user.getPasswordHash());
+            stmt.setString(1, email);
 
-			int affectedRows = statement.executeUpdate();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Timestamp ts = rs.getTimestamp("created_at");
+                    User user = new User();
+                    user.setUserId(rs.getInt("user_id"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPasswordHash(rs.getString("password_hash"));
+                    user.setFullName(rs.getString("full_name"));
+                    if (ts != null) {
+                        user.setCreatedAt(ts.toLocalDateTime());
+                    }
+                    return Optional.of(user);
+                }
+            }
+        }
+        return Optional.empty();
+    }
 
-			if (affectedRows == 0) {
-				return false;
-			}
+    public boolean emailExists(String email) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(EXISTS_BY_EMAIL)) {
 
-			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            stmt.setString(1, email);
 
-				if (generatedKeys.next()) {
-					user.setUserId(generatedKeys.getInt(1));
-				}
-			}
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
 
-			return true;
-		}
-	}
+    public boolean createUser(User user) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(INSERT_USER)) {
 
-	public Optional<User> findByEmail(String email) throws SQLException {
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getPasswordHash());
+            stmt.setString(3, user.getFullName());
 
-		String sql = """
-				SELECT
-				    user_id,
-				    full_name,
-				    email,
-				    password_hash,
-				    created_at
-				FROM users
-				WHERE email = ?
-				""";
-
-		try (Connection connection = DatabaseConnection.getConnection();
-
-				PreparedStatement statement = connection.prepareStatement(sql)) {
-
-			statement.setString(1, email);
-
-			try (ResultSet resultSet = statement.executeQuery()) {
-
-				if (resultSet.next()) {
-					return Optional.of(mapUser(resultSet));
-				}
-			}
-		}
-
-		return Optional.empty();
-	}
-
-	public Optional<User> findById(int userId) throws SQLException {
-
-		String sql = """
-				SELECT
-				    user_id,
-				    full_name,
-				    email,
-				    password_hash,
-				    created_at
-				FROM users
-				WHERE user_id = ?
-				""";
-
-		try (Connection connection = DatabaseConnection.getConnection();
-
-				PreparedStatement statement = connection.prepareStatement(sql)) {
-
-			statement.setInt(1, userId);
-
-			try (ResultSet resultSet = statement.executeQuery()) {
-
-				if (resultSet.next()) {
-					return Optional.of(mapUser(resultSet));
-				}
-			}
-		}
-
-		return Optional.empty();
-	}
-
-	public boolean emailExists(String email) throws SQLException {
-
-		String sql = """
-				SELECT COUNT(*)
-				FROM users
-				WHERE email = ?
-				""";
-
-		try (Connection connection = DatabaseConnection.getConnection();
-
-				PreparedStatement statement = connection.prepareStatement(sql)) {
-
-			statement.setString(1, email);
-
-			try (ResultSet resultSet = statement.executeQuery()) {
-
-				if (resultSet.next()) {
-					return resultSet.getInt(1) > 0;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	private User mapUser(ResultSet resultSet) throws SQLException {
-
-		User user = new User();
-
-		user.setUserId(resultSet.getInt("user_id"));
-
-		user.setFullName(resultSet.getString("full_name"));
-
-		user.setEmail(resultSet.getString("email"));
-
-		user.setPasswordHash(resultSet.getString("password_hash"));
-
-		Timestamp createdAt = resultSet.getTimestamp("created_at");
-
-		if (createdAt != null) {
-			user.setCreatedAt(createdAt.toLocalDateTime());
-		}
-
-		return user;
-	}
+            return stmt.executeUpdate() > 0;
+        }
+    }
 }

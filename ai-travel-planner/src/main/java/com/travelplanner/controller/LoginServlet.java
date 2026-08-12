@@ -15,59 +15,60 @@ import com.travelplanner.service.UserService;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	private final UserService userService = new UserService();
+    private static final long serialVersionUID = 1L;
 
-	public LoginServlet() {
-		super();
-	}
+    private final UserService userService = new UserService();
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    public LoginServlet() {
+        super();
+    }
 
-		response.sendRedirect(request.getContextPath() + "/login.jsp");
-	}
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
+    }
 
-		request.setCharacterEncoding("UTF-8");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+        request.setCharacterEncoding("UTF-8");
 
-		email = email == null ? "" : email.trim().toLowerCase();
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-		if (email.isEmpty() || password == null || password.isBlank()) {
-			request.setAttribute("errorMessage", "Email and password are required.");
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-			return;
-		}
+        email = email == null ? "" : email.trim().toLowerCase();
 
-		try {
-			User user = userService.login(email, password);
+        if (email.isEmpty() || password == null || password.trim().isEmpty()) {
+            request.setAttribute("errorMessage", "Email and password are required.");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+            return;
+        }
 
-			if (user == null) {
-				request.setAttribute("errorMessage", "Invalid email or password.");
-				request.getRequestDispatcher("/login.jsp").forward(request, response);
-				return;
-			}
+        try {
+            User user = userService.login(email, password);
 
-			user.setPasswordHash(null);
+            if (user == null) {
+                request.setAttribute("errorMessage", "Invalid email or password.");
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+                return;
+            }
 
-			HttpSession session = request.getSession(true);
-			session.setAttribute("loggedInUser", user);
+            user.setPasswordHash(null);
 
-			response.sendRedirect(request.getContextPath() + "/dashboard");
+            HttpSession session = request.getSession(true);
+            session.setAttribute("loggedInUser", user);
 
-		} catch (SQLException exception) {
-			exception.printStackTrace();
-			request.setAttribute("errorMessage",
-					"Unable to connect to the database. Check that MySQL is running and update database.properties.");
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-		}
-	}
+            response.sendRedirect(request.getContextPath() + "/dashboard");
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            request.setAttribute("errorMessage",
+                    "Unable to connect to the database. Check that MySQL is running.");
+            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        }
+    }
 }
