@@ -16,7 +16,7 @@ public class CityDAO {
 	public List<City> findAll() throws SQLException {
 
 		String sql = """
-				SELECT city_id, city_name
+				SELECT city_id, city_name, latitude, longitude
 				FROM cities
 				ORDER BY city_name
 				""";
@@ -31,13 +31,7 @@ public class CityDAO {
 
 			while (resultSet.next()) {
 
-				City city = new City();
-
-				city.setCityId(resultSet.getInt("city_id"));
-
-				city.setCityName(resultSet.getString("city_name"));
-
-				cities.add(city);
+				cities.add(mapCity(resultSet));
 			}
 		}
 
@@ -47,7 +41,7 @@ public class CityDAO {
 	public Optional<City> findById(int cityId) throws SQLException {
 
 		String sql = """
-				SELECT city_id, city_name
+				SELECT city_id, city_name, latitude, longitude
 				FROM cities
 				WHERE city_id = ?
 				""";
@@ -62,17 +56,34 @@ public class CityDAO {
 
 				if (resultSet.next()) {
 
-					City city = new City();
-
-					city.setCityId(resultSet.getInt("city_id"));
-
-					city.setCityName(resultSet.getString("city_name"));
-
-					return Optional.of(city);
+					return Optional.of(mapCity(resultSet));
 				}
 			}
 		}
 
 		return Optional.empty();
+	}
+
+	private City mapCity(ResultSet resultSet) throws SQLException {
+
+		City city = new City();
+
+		city.setCityId(resultSet.getInt("city_id"));
+
+		city.setCityName(resultSet.getString("city_name"));
+
+		double latitude = resultSet.getDouble("latitude");
+
+		if (!resultSet.wasNull()) {
+			city.setLatitude(latitude);
+		}
+
+		double longitude = resultSet.getDouble("longitude");
+
+		if (!resultSet.wasNull()) {
+			city.setLongitude(longitude);
+		}
+
+		return city;
 	}
 }

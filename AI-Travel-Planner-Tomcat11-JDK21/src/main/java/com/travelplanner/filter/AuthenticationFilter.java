@@ -12,7 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = { "/dashboard", "/route", "/trip", "/trip-history", "/delete-trip" })
+@WebFilter(urlPatterns = { "/dashboard", "/route", "/trip", "/trip-history", "/trip-details", "/save-trip",
+		"/delete-trip", "/profile" })
 public class AuthenticationFilter implements Filter {
 
 	@Override

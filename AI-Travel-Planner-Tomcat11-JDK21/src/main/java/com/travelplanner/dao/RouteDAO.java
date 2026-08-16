@@ -21,12 +21,17 @@ public class RouteDAO {
 			    r.distance_km,
 			    r.travel_time_hours,
 			    r.estimated_cost,
+			    r.route_info,
 
 			    sc.city_id AS start_city_id,
 			    sc.city_name AS start_city_name,
+			    sc.latitude AS start_latitude,
+			    sc.longitude AS start_longitude,
 
 			    dc.city_id AS destination_city_id,
 			    dc.city_name AS destination_city_name,
+			    dc.latitude AS destination_latitude,
+			    dc.longitude AS destination_longitude,
 
 			    t.transportation_id,
 			    t.transport_name
@@ -117,10 +122,20 @@ public class RouteDAO {
 
 		route.setEstimatedCost(resultSet.getBigDecimal("estimated_cost"));
 
+		route.setRouteInfo(resultSet.getString("route_info"));
+
 		City startingCity = new City(resultSet.getInt("start_city_id"), resultSet.getString("start_city_name"));
+
+		startingCity.setLatitude(readNullableDouble(resultSet, "start_latitude"));
+
+		startingCity.setLongitude(readNullableDouble(resultSet, "start_longitude"));
 
 		City destinationCity = new City(resultSet.getInt("destination_city_id"),
 				resultSet.getString("destination_city_name"));
+
+		destinationCity.setLatitude(readNullableDouble(resultSet, "destination_latitude"));
+
+		destinationCity.setLongitude(readNullableDouble(resultSet, "destination_longitude"));
 
 		Transportation transportation = new Transportation(resultSet.getInt("transportation_id"),
 				resultSet.getString("transport_name"));
@@ -130,5 +145,12 @@ public class RouteDAO {
 		route.setTransportation(transportation);
 
 		return route;
+	}
+
+	private Double readNullableDouble(ResultSet resultSet, String column) throws SQLException {
+
+		double value = resultSet.getDouble(column);
+
+		return resultSet.wasNull() ? null : value;
 	}
 }

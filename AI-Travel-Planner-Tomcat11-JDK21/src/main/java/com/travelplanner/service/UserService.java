@@ -24,6 +24,10 @@ public class UserService {
 
 	public User login(String email, String password) throws SQLException {
 
+		if (password == null || password.isBlank()) {
+			return null;
+		}
+
 		Optional<User> user = userDAO.findByEmail(email);
 
 		if (user.isPresent()) {
@@ -37,6 +41,10 @@ public class UserService {
 		}
 
 		return null;
+	}
+
+	public Optional<User> findById(int userId) throws SQLException {
+		return userDAO.findById(userId);
 	}
 
 }

@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Dashboard layout (dashboard.jsp, profile.jsp)
+   ========================================================================== */
+
+.app-shell {
+	display: flex;
+	min-height: 100vh;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+	position: sticky;
+	top: 0;
+	align-self: flex-start;
+	width: 264px;
+	flex-shrink: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	padding: 24px 16px;
+	background: var(--color-dark);
+}
+
+.sidebar-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 4px 8px 24px;
+}
+
+.sidebar-nav {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	flex: 1;
+}
+
+.sidebar-link {
+	display: block;
+	padding: 12px 16px;
+	border-radius: var(--radius-sm);
+	color: var(--color-muted-light);
+	text-decoration: none;
+	font-size: 0.95rem;
+	font-weight: 600;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-link:hover {
+	background: rgba(255, 255, 255, 0.08);
+	color: var(--color-white);
+}
+
+.sidebar-link.active {
+	background: var(--color-secondary);
+	color: var(--color-dark);
+}
+
+.sidebar-logout {
+	margin-top: auto;
+	color: #fca5a5;
+}
+
+.sidebar-logout:hover {
+	background: rgba(220, 38, 38, 0.18);
+	color: #fecaca;
+}
+
+/* ---- Main column ---- */
+.app-main {
+	flex: 1;
+	min-width: 0;
+	padding: 28px 36px 48px;
+	background: var(--color-surface);
+}
+
+.app-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 26px;
+}
+
+.app-topbar h1 {
+	font-size: 1.8rem;
+	color: var(--color-heading);
+}
+
+.topbar-user {
+	color: var(--color-muted);
+	font-size: 0.95rem;
+}
+
+.dashboard-alert {
+	max-width: 1100px;
+}
+
+/* ---- Stat cards ---- */
+.stat-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 22px;
+	margin-bottom: 36px;
+}
+
+.stat-card {
+	background: var(--color-white);
+	border-radius: var(--radius-lg);
+	padding: 26px 24px;
+	box-shadow: var(--shadow-sm);
+	border-top: 5px solid var(--color-primary);
+}
+
+.stat-label {
+	display: block;
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	color: var(--color-muted);
+	margin-bottom: 12px;
+}
+
+.stat-value {
+	display: block;
+	font-size: 2.4rem;
+	font-weight: 800;
+	color: var(--color-secondary-dark);
+	line-height: 1.1;
+}
+
+.stat-value-sm {
+	font-size: 1.25rem;
+	color: var(--color-primary);
+	line-height: 1.3;
+}
+
+.stat-sub {
+	display: block;
+	margin-top: 8px;
+	color: var(--color-muted);
+	font-size: 0.9rem;
+}
+
+.stat-list {
+	margin-top: 12px;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.stat-list li {
+	font-size: 0.88rem;
+	color: #475569;
+	border-left: 3px solid var(--color-accent);
+	padding-left: 10px;
+}
+
+/* ---- Planner section ---- */
+.content-section {
+	max-width: 1100px;
+}
+
+.planner-card-header {
+	margin-bottom: 24px;
+}
+
+.planner-card-header h2 {
+	font-size: 1.4rem;
+	color: var(--color-heading);
+	margin-bottom: 6px;
+}
+
+.planner-card-header p {
+	color: var(--color-muted);
+	font-size: 0.95rem;
+}
+
+.optional-tag {
+	font-weight: 400;
+	font-size: 0.78rem;
+	color: var(--color-muted);
+}
+
+/* ---- Profile ---- */
+.profile-card {
+	background: var(--color-white);
+	border-radius: var(--radius-lg);
+	padding: 36px;
+	box-shadow: var(--shadow-sm);
+	display: flex;
+	align-items: center;
+	gap: 28px;
+	max-width: 720px;
+}
+
+.profile-avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 88px;
+	height: 88px;
+	border-radius: 50%;
+	background: var(--color-primary);
+	color: var(--color-white);
+	font-size: 2.4rem;
+	font-weight: 800;
+	flex-shrink: 0;
+}
+
+.profile-details h2 {
+	font-size: 1.5rem;
+	color: var(--color-heading);
+	margin-bottom: 8px;
+}
+
+.profile-meta {
+	color: var(--color-muted);
+	font-size: 0.95rem;
+	margin-bottom: 4px;
+}

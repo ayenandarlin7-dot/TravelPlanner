@@ -36,9 +36,19 @@ public class DeleteTripServlet extends HttpServlet {
 		try {
 			int tripId = Integer.parseInt(request.getParameter("tripId"));
 
-			tripService.deleteTrip(tripId, loggedInUser.getUserId());
+			/*
+			 * The delete only removes the trip when it belongs to the
+			 * authenticated user; the DAO applies both conditions in the SQL.
+			 * Anything else is treated as not found so a user cannot delete
+			 * another user's trip by manipulating the trip id.
+			 */
+			boolean deleted = tripService.deleteTrip(tripId, loggedInUser.getUserId());
 
-			response.sendRedirect(request.getContextPath() + "/trip-history?deleted=success");
+			if (deleted) {
+				response.sendRedirect(request.getContextPath() + "/trip-history?deleted=success");
+			} else {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND, "Trip not found or access denied.");
+			}
 
 		} catch (NumberFormatException exception) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid trip ID.");

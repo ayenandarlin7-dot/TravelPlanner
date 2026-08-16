@@ -11,6 +11,7 @@ public class Route {
 	private double distanceKm;
 	private double travelTimeHours;
 	private BigDecimal estimatedCost;
+	private String routeInfo;
 	private double recommendationScore;
 
 	public Route() {
@@ -82,6 +83,14 @@ public class Route {
 
 	public void setEstimatedCost(BigDecimal estimatedCost) {
 		this.estimatedCost = estimatedCost;
+	}
+
+	public String getRouteInfo() {
+		return routeInfo;
+	}
+
+	public void setRouteInfo(String routeInfo) {
+		this.routeInfo = routeInfo;
 	}
 
 	public double getRecommendationScore() {
