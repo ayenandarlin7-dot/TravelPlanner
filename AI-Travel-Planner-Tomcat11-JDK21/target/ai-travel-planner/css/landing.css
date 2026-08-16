@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Landing page (index.jsp) styles
+   ========================================================================== */
+
+/* ---- Hero ---- */
+.hero {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: 640px;
+	padding: 96px 0 72px;
+	text-align: center;
+	background:
+		linear-gradient(135deg, rgba(15, 42, 63, 0.55), rgba(11, 100, 122, 0.55)),
+		url("../images/hero-travel.svg") center / cover no-repeat;
+}
+
+.hero-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(8, 34, 52, 0.35) 0%, rgba(8, 34, 52, 0.55) 100%);
+}
+
+.hero-content {
+	position: relative;
+	z-index: 1;
+	color: var(--color-white);
+	max-width: 720px;
+}
+
+.hero-eyebrow {
+	display: inline-block;
+	padding: 6px 16px;
+	margin-bottom: 20px;
+	border: 1px solid rgba(255, 255, 255, 0.45);
+	border-radius: 999px;
+	font-size: 0.85rem;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.hero-title {
+	font-size: 3.25rem;
+	font-weight: 800;
+	line-height: 1.1;
+	margin-bottom: 20px;
+	color: var(--color-white);
+	text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+}
+
+.hero-subtitle {
+	font-size: 1.2rem;
+	line-height: 1.7;
+	margin-bottom: 36px;
+	color: rgba(255, 255, 255, 0.92);
+}
+
+.hero-actions {
+	display: flex;
+	gap: 14px;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+/* ---- Sections ---- */
+.section {
+	padding: 72px 0;
+}
+
+.section-alt {
+	background: var(--color-surface);
+}
+
+.section-title {
+	text-align: center;
+	font-size: 2rem;
+	margin-bottom: 10px;
+	color: var(--color-heading);
+}
+
+.section-subtitle {
+	text-align: center;
+	color: var(--color-muted);
+	margin-bottom: 40px;
+	font-size: 1.05rem;
+}
+
+/* ---- How It Works ---- */
+.steps-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 24px;
+}
+
+.step-card {
+	background: var(--color-white);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	padding: 28px 24px;
+	text-align: center;
+	box-shadow: var(--shadow-sm);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.step-card:hover {
+	transform: translateY(-6px);
+	box-shadow: var(--shadow-lg);
+}
+
+.step-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	margin: 0 auto 18px;
+	border-radius: 50%;
+	background: var(--color-primary);
+	color: var(--color-white);
+	font-size: 1.4rem;
+	font-weight: 700;
+}
+
+.step-card h3 {
+	margin-bottom: 10px;
+	color: var(--color-heading);
+	font-size: 1.1rem;
+}
+
+.step-card p {
+	color: var(--color-muted);
+	font-size: 0.95rem;
+	line-height: 1.6;
+}
+
+/* ---- Features ---- */
+.features-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+.feature-card {
+	background: var(--color-white);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	padding: 30px 26px;
+	box-shadow: var(--shadow-sm);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+	transform: translateY(-6px);
+	box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+	font-size: 2rem;
+	margin-bottom: 14px;
+}
+
+.feature-card h3 {
+	margin-bottom: 10px;
+	color: var(--color-heading);
+	font-size: 1.1rem;
+}
+
+.feature-card p {
+	color: var(--color-muted);
+	font-size: 0.95rem;
+	line-height: 1.6;
+}
+
+/* ---- Destinations ---- */
+.destination-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+}
+
+.destination-card {
+	position: relative;
+	display: block;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	box-shadow: var(--shadow-md);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.destination-card:hover {
+	transform: translateY(-6px);
+	box-shadow: var(--shadow-lg);
+}
+
+.destination-image {
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(135deg, #0f6b86, #f5a623);
+}
+
+.destination-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.4s ease;
+}
+
+.destination-card:hover .destination-image img {
+	transform: scale(1.06);
+}
+
+.destination-overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 20px;
+	color: var(--color-white);
+	background: linear-gradient(180deg, rgba(8, 34, 52, 0) 40%, rgba(8, 34, 52, 0.75) 100%);
+}
+
+.destination-overlay h3 {
+	font-size: 1.15rem;
+	margin-bottom: 4px;
+}
+
+.destination-overlay p {
+	font-size: 0.9rem;
+	color: rgba(255, 255, 255, 0.9);
+}
+
+/* ---- Footer ---- */
+.site-footer {
+	background: var(--color-dark);
+	color: var(--color-muted-light);
+	padding: 56px 0 0;
+}
+
+.footer-top {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr;
+	gap: 40px;
+	padding-bottom: 40px;
+}
+
+.footer-brand p {
+	margin-top: 14px;
+	font-size: 0.95rem;
+	color: var(--color-muted-light);
+}
+
+.footer-links {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.footer-links h4 {
+	color: var(--color-white);
+	margin-bottom: 6px;
+	font-size: 1rem;
+}
+
+.footer-links a {
+	color: var(--color-muted-light);
+	text-decoration: none;
+	font-size: 0.95rem;
+	transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+	color: var(--color-secondary);
+}
+
+.footer-bottom {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 8px;
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
+	padding: 20px 0;
+	font-size: 0.85rem;
+	color: var(--color-muted-light);
+}
+
+.footer-disclaimer {
+	font-size: 0.8rem;
+	opacity: 0.85;
+}
